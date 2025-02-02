@@ -7,4 +7,4 @@ writer.o : writer.c
 		$(CROSS_COMPILE) -c writer.c
 
 clean :
-		rm -rf writer *.o *.out
+		rm -rf *.o *.out
