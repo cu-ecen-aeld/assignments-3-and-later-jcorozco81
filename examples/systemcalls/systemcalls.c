@@ -75,6 +75,7 @@ bool do_exec(int count, ...)
     int status;
     pid_t pid;
 
+    fflush(stdout);
     pid = fork();
     if (pid == -1)
     {
@@ -142,7 +143,7 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
         perror("Error: open (redirect) failed.");
         _exit(EXIT_FAILURE);
     }
-
+fflush(stdout);
     pid = fork();
     if (pid == -1)
     {
