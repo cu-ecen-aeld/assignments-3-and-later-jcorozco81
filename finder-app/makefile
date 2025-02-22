@@ -1,10 +1,12 @@
-CROSS_COMPILE = gcc
+CC = $(CROSS_COMPILE)gcc
+
 
 writer : writer.o
-		$(CROSS_COMPILE) -o writer writer.o 
+
+		$(CC) -o writer writer.o 
 
 writer.o : writer.c
-		$(CROSS_COMPILE) -c writer.c
+		$(CC) -c writer.c
 
 clean :
-		rm -rf *.o *.out
+		rm -f *.o *.out
