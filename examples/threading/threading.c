@@ -70,7 +70,6 @@ if (pthread_create(thread, NULL, threadfunc, (void*)data) !=0){
 //     free(data);
 //     return 1;
 // }
-free(data);
 return true;
 
 
