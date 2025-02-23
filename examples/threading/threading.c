@@ -21,13 +21,15 @@ void* threadfunc(void* thread_param)
     sleep(thread_func_args->wait_to_obtain_ms);
     
     if(pthread_mutex_lock(thread_func_args->mutex) != 0){
-        perror=("mutex_lock error");
+        // perror=("mutex_lock error");
+        retun 1;
 
     }
 
     sleep(thread_func_args->wait_to_release_ms);
     if(pthread_mutex_unlock(thread_func_args->mutex) != 0){
-        perror=("mutex_unlock error");
+        // perror=("mutex_unlock error");
+        retun 1;
 
     }
 
@@ -66,11 +68,11 @@ if (pthread_create(thread, NULL, threadfunc, (void*)data) !=0){
     return false; 
 }
 
-if (pthread_join(thread, NULL) != 0){
-    perror("pthread_join error");
-    free(data);
-    return 1;
-}
+// if (pthread_join(thread, NULL) != 0){
+//     perror("pthread_join error");
+//     free(data);
+//     return 1;
+// }
 free(data);
 return true;
 
