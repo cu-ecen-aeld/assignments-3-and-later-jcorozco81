@@ -20,18 +20,15 @@ void* threadfunc(void* thread_param)
 
     sleep(thread_func_args->wait_to_obtain_ms);
     
-    if(pthread_mutex_lock(thread_func_args->mutex) != 0){
-        // perror=("mutex_lock error");
-        return 1;
+pthread_mutex_lock(thread_func_args->mutex);
 
-    }
+
 
     sleep(thread_func_args->wait_to_release_ms);
-    if(pthread_mutex_unlock(thread_func_args->mutex) != 0){
-        // perror=("mutex_unlock error");
-        return 1;
+  pthread_mutex_unlock(thread_func_args->mutex);
 
-    }
+
+
 
     thread_func_args->thread_complete_success=true;
 
