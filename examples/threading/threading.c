@@ -22,14 +22,14 @@ void* threadfunc(void* thread_param)
     
     if(pthread_mutex_lock(thread_func_args->mutex) != 0){
         // perror=("mutex_lock error");
-        retun 1;
+        return 1;
 
     }
 
     sleep(thread_func_args->wait_to_release_ms);
     if(pthread_mutex_unlock(thread_func_args->mutex) != 0){
         // perror=("mutex_unlock error");
-        retun 1;
+        return 1;
 
     }
 
