@@ -53,18 +53,18 @@ int daemonize()
     }
 
     // Second Fork
-    pid = fork();
-    printf("Daemon PID (2): %d\n", pid);
+    // pid = fork();
+    // printf("Daemon PID (2): %d\n", pid);
 
-    if (pid < 0)
-    {
-        perror("fork failed");
-        exit(EXIT_FAILURE);
-    }
-    else if (pid > 0)
-    {
-        exit(EXIT_SUCCESS);
-    }
+    // if (pid < 0)
+    // {
+    //     perror("fork failed");
+    //     exit(EXIT_FAILURE);
+    // }
+    // else if (pid > 0)
+    // {
+    //     exit(EXIT_SUCCESS);
+    // }
 
     // Umask
     umask(0);
