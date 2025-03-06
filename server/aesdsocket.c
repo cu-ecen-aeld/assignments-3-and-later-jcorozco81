@@ -25,6 +25,15 @@
 #define BACKLOG 5
 #define FILEPATH "/var/tmp/aesdsocketdata"
 
+
+
+int fd;
+int sockfd, cfd;
+FILE *fptr;
+
+
+
+
 int daemonize()
 {
 
@@ -102,19 +111,26 @@ int delete_file()
 // Signal Handler Function
 void signal_handler(int signal)
 {
-    if (signal == SIGINT || signal == SIGTERM)
-    {
+
         openlog("aesdsocket", 0, LOG_USER);
         syslog(LOG_INFO, "Caught signal, exiting");
         closelog();
-    }
+
+
+    // close(fd);
+    // fclose(fptr);
+
     delete_file();
+
+
+    // close(cfd);
+    // close(sockfd);
     exit(0);
 }
 
 int client_handler(int cfd)
 {
-    int fd;
+
     char *buffer;
     char *rbuffer;
     ssize_t bytes_recv, bytes_read, send_result;
@@ -149,7 +165,7 @@ int client_handler(int cfd)
     close(fd);
 
     // Send
-    FILE *fptr;
+
     fptr = fopen("/var/tmp/aesdsocketdata", "r");
     if (fptr == NULL){
         perror("Error opening file.\n");
@@ -171,7 +187,7 @@ int client_handler(int cfd)
 int main(int argc, char *argv[])
 {
 
-    int sockfd, cfd;
+   
     struct sockaddr_in myaddr, peer_addr;
     socklen_t myaddr_size = sizeof(myaddr);
     socklen_t peeraddr_size = sizeof(peer_addr);
@@ -203,7 +219,7 @@ int main(int argc, char *argv[])
         close(sockfd);
         exit(EXIT_FAILURE);
     }
-
+memset(&myaddr, 0, sizeof(myaddr));
     myaddr.sin_family = AF_INET;
     myaddr.sin_port = htons(PORT);
     myaddr.sin_addr.s_addr = INADDR_ANY;
