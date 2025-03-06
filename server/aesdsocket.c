@@ -25,14 +25,9 @@
 #define BACKLOG 5
 #define FILEPATH "/var/tmp/aesdsocketdata"
 
-
-
 int fd;
 int sockfd, cfd;
 FILE *fptr;
-
-
-
 
 int daemonize()
 {
@@ -112,16 +107,14 @@ int delete_file()
 void signal_handler(int signal)
 {
 
-        openlog("aesdsocket", 0, LOG_USER);
-        syslog(LOG_INFO, "Caught signal, exiting");
-        closelog();
-
+    openlog("aesdsocket", 0, LOG_USER);
+    syslog(LOG_INFO, "Caught signal, exiting");
+    closelog();
 
     // close(fd);
     // fclose(fptr);
 
     delete_file();
-
 
     // close(cfd);
     // close(sockfd);
@@ -167,27 +160,29 @@ int client_handler(int cfd)
     // Send
 
     fptr = fopen("/var/tmp/aesdsocketdata", "r");
-    if (fptr == NULL){
+    if (fptr == NULL)
+    {
         perror("Error opening file.\n");
         printf("Errno: %d\n", errno);
-    
-    return 1;
+
+        return 1;
     }
-    
-    while((bytes_read = fread(rbuffer, 1, BUFFER_SIZE, fptr))> 0){
-        if (send(cfd, rbuffer, bytes_read, 0)<0){
+
+    while ((bytes_read = fread(rbuffer, 1, BUFFER_SIZE, fptr)) > 0)
+    {
+        if (send(cfd, rbuffer, bytes_read, 0) < 0)
+        {
             perror("Error sending data");
         }
     }
-    
-    fclose(fptr);
 
+    fclose(fptr);
 }
 
 int main(int argc, char *argv[])
 {
 
-   
+    int daemon_mode = 0;
     struct sockaddr_in myaddr, peer_addr;
     socklen_t myaddr_size = sizeof(myaddr);
     socklen_t peeraddr_size = sizeof(peer_addr);
@@ -198,7 +193,7 @@ int main(int argc, char *argv[])
 
     if (argc > 1 && strcmp(argv[1], "-d") == 0)
     {
-        int daemonize();
+        daemon_mode = 1;
         printf("%s Daemon Starting\n", argv[1]);
     }
 
@@ -219,7 +214,7 @@ int main(int argc, char *argv[])
         close(sockfd);
         exit(EXIT_FAILURE);
     }
-memset(&myaddr, 0, sizeof(myaddr));
+    memset(&myaddr, 0, sizeof(myaddr));
     myaddr.sin_family = AF_INET;
     myaddr.sin_port = htons(PORT);
     myaddr.sin_addr.s_addr = INADDR_ANY;
@@ -230,8 +225,12 @@ memset(&myaddr, 0, sizeof(myaddr));
         close(sockfd);
         exit(EXIT_FAILURE);
     }
-
+    
     printf("Socket bound to port: %d\n. ", PORT);
+
+    if (daemon_mode == 1)
+        daemonize();
+
 
     if (listen(sockfd, BACKLOG) < 0)
     {
