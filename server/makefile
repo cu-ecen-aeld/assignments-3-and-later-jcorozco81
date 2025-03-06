@@ -1,11 +1,13 @@
 CC = $(CROSS_COMPILE)gcc
+CFLAGS = -Wall -g
+LDFLAGS = -lpthread
+TARGET: aesdsocket
 
-
-all : aesdsocket
+all : $(TARGET)
 
 aesdsocket : aesdsocket.o
 
-		$(CC) -o aesdsocket aesdsocket.o 
+		$(CC) $(CFLAGS) -o aesdsocket aesdsocket.o $(LDFLAGS)
 
 aesdsocket.o : aesdsocket.c
 		$(CC) -c aesdsocket.c
