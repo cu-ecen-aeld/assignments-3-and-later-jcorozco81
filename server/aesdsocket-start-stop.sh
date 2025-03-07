@@ -3,7 +3,7 @@
 # Start
 start(){
     echo "Starting aesdsocket..."
-    start-stop-daemon --start --name aesdsocket --exec usr/bin/aesdsocket -- "-d"
+    start-stop-daemon --start --name aesdsocket --exec /usr/bin/aesdsocket -- "-d"
 }
 
 #Stop
